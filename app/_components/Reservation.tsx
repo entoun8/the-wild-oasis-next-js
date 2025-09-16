@@ -1,0 +1,16 @@
+import { getBookedDatesByCabinId, getSettings } from "../_lib/data-service";
+import DateSelector from "./DateSelector";
+import ReservationForm from "./ReservationForm";
+
+export default async function Reservation({ cabin }) {
+  const [settings, bookedDates] = await Promise.all([
+    getSettings(),
+    getBookedDatesByCabinId(cabin.id),
+  ]);
+  return (
+    <div>
+      <DateSelector settings={settings} bookDates={bookedDates} cabin={cabin} />
+      <ReservationForm cabin={cabin} />
+    </div>
+  );
+}
