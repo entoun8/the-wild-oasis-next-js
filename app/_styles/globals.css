@@ -60,8 +60,46 @@
 
 /* For date picker */
 .rdp {
-  --rdp-cell-size: 40px !important;
+  --rdp-cell-size: 44px !important;
   --rdp-accent-color: #f59e0b !important;
   --rdp-background-color: #d97706 !important;
+  --rdp-range-start-color: #f59e0b !important;
+  --rdp-range-end-color: #f59e0b !important;
+  --rdp-range-middle-color: rgba(245, 158, 11, 0.2) !important;
+  --rdp-selected-color: #f59e0b !important;
   margin: 0 !important;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  color: #f59e0b !important;
+}
+
+.rdp-day_selected {
+  background-color: #f59e0b !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+.rdp-day_range_start, .rdp-day_range_end {
+  background-color: #f59e0b !important;
+  color: #0f172a !important;
+}
+
+.rdp-day_range_middle {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+  color: #f1f5f9 !important;
+  position: relative !important;
+}
+
+.rdp-day_range_middle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, #f59e0b, #fbbf24, #f59e0b);
+  transform: translateY(-50%);
+  opacity: 0.6;
 }

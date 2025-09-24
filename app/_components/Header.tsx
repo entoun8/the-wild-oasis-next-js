@@ -1,12 +1,15 @@
 import Navigation from '@/app/_components/Navigation';
 import Logo from '@/app/_components/Logo';
+import { auth } from "@/app/_lib/auth";
 
-function Header() {
+async function Header() {
+  const session = await auth();
+
   return (
-    <header className='border-b border-primary-800/50 backdrop-blur-sm bg-primary-900/30 sticky top-0 z-50'>
-      <div className='flex justify-between items-center max-w-7xl mx-auto px-6 py-4'>
+    <header className='border-b border-primary-800/40 backdrop-blur-md bg-primary-900/90 supports-[backdrop-filter]:bg-primary-900/70 sticky top-0 z-50 shadow-lg shadow-primary-950/30'>
+      <div className='flex justify-between items-center max-w-7xl mx-auto px-6 sm:px-8 py-2'>
         <Logo />
-        <Navigation />
+        <Navigation session={session} />
       </div>
     </header>
   );

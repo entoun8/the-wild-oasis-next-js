@@ -1,6 +1,7 @@
 import "@/app/_styles/globals.css";
 import { Josefin_Sans } from "next/font/google";
 import Header from "@/app/_components/Header";
+import { ReservationProvider } from "./_components/ReservationContext";
 
 export const metadata = {
   title: {
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
       <body className={`${josefin.className} antialiased h-full`}>
         <div className="h-full flex flex-col">
           <Header />
-          <div className="flex-1 min-h-0">{children}</div>
+          <main className="flex-1 min-h-0">
+            <ReservationProvider>{children}</ReservationProvider>
+          </main>
         </div>
       </body>
     </html>

@@ -1,8 +1,13 @@
-export default function UpdateProfileForm({ children }) {
-  const countryFlag = "pt.jpg";
+"use client";
+
+import { updateGuest } from "../_lib/actions";
+import SubmitButton from "./SubmitButton";
+
+export default function UpdateProfileForm({ guest, children }) {
+  const { fullName, email, nationality, nationalId, countryFlag } = guest;
 
   return (
-    <form className="space-y-6">
+    <form action={updateGuest} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-primary-200">
@@ -10,6 +15,8 @@ export default function UpdateProfileForm({ children }) {
           </label>
           <input
             disabled
+            defaultValue={fullName}
+            name="fullName"
             className="w-full px-4 py-3 bg-primary-800 border border-primary-700 rounded-lg text-primary-100 placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-60"
           />
         </div>
@@ -20,6 +27,8 @@ export default function UpdateProfileForm({ children }) {
           </label>
           <input
             disabled
+            defaultValue={email}
+            name="email"
             className="w-full px-4 py-3 bg-primary-800 border border-primary-700 rounded-lg text-primary-100 placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-60"
           />
         </div>
@@ -51,6 +60,7 @@ export default function UpdateProfileForm({ children }) {
           National ID number
         </label>
         <input
+          defaultValue={nationalId}
           name="nationalID"
           className="w-full px-4 py-3 bg-primary-800 border border-primary-700 rounded-lg text-primary-100 placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent"
           placeholder="Enter your national ID number"
@@ -58,7 +68,7 @@ export default function UpdateProfileForm({ children }) {
       </div>
 
       <div className="flex justify-end pt-6">
-        <button className="btn-primary">Update profile</button>
+        <SubmitButton pendingLabel="Updating">Update profile</SubmitButton>
       </div>
     </form>
   );

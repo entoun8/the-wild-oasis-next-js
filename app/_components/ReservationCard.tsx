@@ -1,6 +1,8 @@
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { format, formatDistance, isPast, isToday, parseISO } from "date-fns";
 import DeleteReservation from "./DeleteReservation";
+import Image from "next/image";
+import Link from "next/link";
 
 export const formatDistanceFromNow = (dateStr) =>
   formatDistance(parseISO(dateStr), new Date(), {
@@ -25,7 +27,8 @@ function ReservationCard({ booking }) {
     <div className="card">
       <div className="grid md:grid-cols-4 gap-6">
         <div className="relative h-32 md:h-auto">
-          <img
+          <Image
+            fill
             src={image}
             alt={`Cabin ${name}`}
             className="w-full h-full object-cover rounded-lg"
@@ -58,7 +61,9 @@ function ReservationCard({ booking }) {
 
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-accent-400 font-semibold text-lg">${totalPrice}</span>
+              <span className="text-accent-400 font-semibold text-lg">
+                ${totalPrice}
+              </span>
             </div>
             <div className="text-primary-300">
               {numGuests} guest{numGuests > 1 && "s"}
@@ -70,16 +75,18 @@ function ReservationCard({ booking }) {
           </p>
         </div>
 
-        <div className="flex md:flex-col gap-2">
-          <a
-            href={`/account/reservations/edit/${id}`}
-            className="btn-secondary flex-1 md:flex-none text-center inline-flex items-center justify-center gap-2 text-sm group"
-          >
-            <PencilSquareIcon className="h-4 w-4" />
-            <span>Edit</span>
-          </a>
-          <DeleteReservation bookingId={id} />
-        </div>
+        {!isPast(startDate) ? (
+          <div className="flex md:flex-col gap-2">
+            <Link
+              href={`/account/reservations/edit/${id}`}
+              className="btn-secondary flex-1 md:flex-none text-center inline-flex items-center justify-center gap-2 text-sm group"
+            >
+              <PencilSquareIcon className="h-4 w-4" />
+              <span>Edit</span>
+            </Link>
+            <DeleteReservation bookingId={id} />
+          </div>
+        ) : null}
       </div>
     </div>
   );
