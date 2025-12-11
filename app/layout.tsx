@@ -2,6 +2,7 @@ import "@/app/_styles/globals.css";
 import { Josefin_Sans } from "next/font/google";
 import Header from "@/app/_components/Header";
 import { ReservationProvider } from "./_components/ReservationContext";
+import { LayoutProps } from "../types";
 
 export const metadata = {
   title: {
@@ -17,7 +18,7 @@ const josefin = Josefin_Sans({
   display: "swap",
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" className="h-full">
       <body className={`${josefin.className} antialiased h-full`}>

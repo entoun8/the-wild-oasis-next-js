@@ -3,13 +3,14 @@ import { format, formatDistance, isPast, isToday, parseISO } from "date-fns";
 import DeleteReservation from "./DeleteReservation";
 import Image from "next/image";
 import Link from "next/link";
+import { ReservationCardProps } from "../../types";
 
-export const formatDistanceFromNow = (dateStr) =>
+export const formatDistanceFromNow = (dateStr: string) =>
   formatDistance(parseISO(dateStr), new Date(), {
     addSuffix: true,
   }).replace("about ", "");
 
-function ReservationCard({ booking }) {
+function ReservationCard({ booking }: ReservationCardProps) {
   const {
     id,
     guestId,
@@ -20,7 +21,7 @@ function ReservationCard({ booking }) {
     numGuests,
     status,
     created_at,
-    cabins: { name, image },
+    cabins,
   } = booking;
 
   return (
@@ -29,8 +30,8 @@ function ReservationCard({ booking }) {
         <div className="relative h-32 md:h-auto">
           <Image
             fill
-            src={image}
-            alt={`Cabin ${name}`}
+            src={cabins?.image || ''}
+            alt={`Cabin ${cabins?.name || ''}`}
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
@@ -38,7 +39,7 @@ function ReservationCard({ booking }) {
         <div className="md:col-span-2 space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <h3 className="text-xl font-semibold text-primary-100">
-              {numNights} nights in Cabin {name}
+              {numNights} nights in Cabin {cabins?.name || ''}
             </h3>
             {isPast(new Date(startDate)) ? (
               <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 uppercase text-xs font-semibold rounded-full border border-yellow-500/30">

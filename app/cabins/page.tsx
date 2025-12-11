@@ -3,13 +3,14 @@ import CabinsList from "../_components/CabinsList";
 import Spinner from "../_components/Spinner";
 import Filter from "../_components/Filter";
 import ReservationReminder from "../_components/ReservationReminder";
+import { PageProps, CabinFilter } from "../../types";
 
 export const metadata = {
   title: "Cabins",
 };
 
-export default async function Page({ searchParams }) {
-  const filter = searchParams?.capacity ?? "all";
+export default async function Page({ searchParams }: PageProps) {
+  const filter: CabinFilter = (searchParams?.capacity as CabinFilter) ?? "all";
 
   return (
     <div className="min-h-screen">

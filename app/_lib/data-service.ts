@@ -1,8 +1,9 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
 import { notFound } from "next/navigation";
+import { Cabin, Guest, Booking, Settings, Country } from "../../types";
 
-export async function getCabin(id) {
+export async function getCabin(id: number): Promise<Cabin> {
   const { data, error } = await supabase
     .from("cabins")
     .select("*")
@@ -17,7 +18,7 @@ export async function getCabin(id) {
   return data;
 }
 
-export async function getCabinPrice(id) {
+export async function getCabinPrice(id: number): Promise<{ regularPrice: number; discount: number } | null> {
   const { data, error } = await supabase
     .from("cabins")
     .select("regularPrice, discount")
@@ -31,7 +32,7 @@ export async function getCabinPrice(id) {
   return data;
 }
 
-export const getCabins = async function () {
+export const getCabins = async function (): Promise<Cabin[]> {
   const { data, error } = await supabase
     .from("cabins")
     .select("id, name, maxCapacity, regularPrice, discount, image")
@@ -45,7 +46,7 @@ export const getCabins = async function () {
   return data;
 };
 
-export async function getGuest(email) {
+export async function getGuest(email: string): Promise<Guest | null> {
   const { data, error } = await supabase
     .from("guests")
     .select("*")
@@ -55,7 +56,7 @@ export async function getGuest(email) {
   return data;
 }
 
-export async function getBooking(id) {
+export async function getBooking(id: number): Promise<Booking> {
   const { data, error, count } = await supabase
     .from("bookings")
     .select("*")
@@ -70,8 +71,8 @@ export async function getBooking(id) {
   return data;
 }
 
-export async function getBookings(guestId) {
-  const { data, error, count } = await supabase
+export async function getBookings(guestId: number): Promise<Booking[]> {
+  const { data, error } = await supabase
     .from("bookings")
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
@@ -84,19 +85,19 @@ export async function getBookings(guestId) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  return data as unknown as Booking[];
 }
 
-export async function getBookedDatesByCabinId(cabinId) {
+export async function getBookedDatesByCabinId(cabinId: number): Promise<Date[]> {
   let today = new Date();
   today.setUTCHours(0, 0, 0, 0);
-  today = today.toISOString();
+  const todayString = today.toISOString();
 
   const { data, error } = await supabase
     .from("bookings")
     .select("*")
     .eq("cabinId", cabinId)
-    .or(`startDate.gte.${today},status.eq.checked-in`);
+    .or(`startDate.gte.${todayString},status.eq.checked-in`);
 
   if (error) {
     console.error(error);
@@ -115,7 +116,7 @@ export async function getBookedDatesByCabinId(cabinId) {
   return bookedDates;
 }
 
-export async function getSettings() {
+export async function getSettings(): Promise<Settings> {
   const { data, error } = await supabase.from("settings").select("*").single();
 
   if (error) {
@@ -126,7 +127,7 @@ export async function getSettings() {
   return data;
 }
 
-export async function getCountries() {
+export async function getCountries(): Promise<Country[]> {
   try {
     const res = await fetch(
       "https://restcountries.com/v2/all?fields=name,flag"
@@ -138,7 +139,7 @@ export async function getCountries() {
   }
 }
 
-export async function createGuest(newGuest) {
+export async function createGuest(newGuest: Omit<Guest, 'id' | 'created_at'>): Promise<Guest[]> {
   const { data, error } = await supabase.from("guests").insert([newGuest]);
 
   if (error) {
@@ -146,7 +147,7 @@ export async function createGuest(newGuest) {
     throw new Error("Guest could not be created");
   }
 
-  return data;
+  return data || [];
 }
 
 // export async function createBooking(newBooking) {

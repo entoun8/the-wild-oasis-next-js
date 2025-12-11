@@ -2,8 +2,9 @@
 
 import { updateGuest } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
+import { UpdateProfileFormProps } from "../../types";
 
-export default function UpdateProfileForm({ guest, children }) {
+export default function UpdateProfileForm({ guest, children }: UpdateProfileFormProps) {
   const { fullName, email, nationality, nationalId, countryFlag } = guest;
 
   return (
@@ -61,7 +62,7 @@ export default function UpdateProfileForm({ guest, children }) {
         </label>
         <input
           defaultValue={nationalId}
-          name="nationalID"
+          name="nationalId"
           className="w-full px-4 py-3 bg-primary-800 border border-primary-700 rounded-lg text-primary-100 placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent"
           placeholder="Enter your national ID number"
         />

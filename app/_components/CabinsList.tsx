@@ -1,10 +1,11 @@
 import CabinCard from "../_components/CabinCard";
 import { getCabins } from "../_lib/data-service";
+import { CabinsListProps } from "../../types";
 
-export default async function CabinsList({ filter }) {
+export default async function CabinsList({ filter }: CabinsListProps) {
   const cabins = await getCabins();
 
-  let displayedCabins;
+  let displayedCabins = cabins;
 
   if (filter === "all") displayedCabins = cabins;
   if (filter === "small")

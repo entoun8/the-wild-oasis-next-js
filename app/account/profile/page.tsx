@@ -9,7 +9,7 @@ export const metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const guest = await getGuest(session?.user?.email);
+  const guest = await getGuest(session?.user?.email || "");
 
   return (
     <div>
@@ -22,12 +22,12 @@ export default async function Page() {
         faster and smoother. See you soon!
       </p>
 
-      <UpdateProfileForm guest={guest}>
+      <UpdateProfileForm guest={guest!}>
         <SelectCountry
           name="nationality"
           id="nationality"
           className="w-full px-4 py-3 bg-primary-800 border border-primary-700 rounded-lg text-primary-100 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent"
-          defaultCountry={guest.nationality}
+          defaultCountry={guest?.nationality || ""}
         />
       </UpdateProfileForm>
     </div>

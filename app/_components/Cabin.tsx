@@ -1,8 +1,9 @@
 import Image from "next/image";
 import TextExpander from "./TextExpander";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { CabinProps } from "../../types";
 
-export default function Cabin({ cabin }) {
+export default function Cabin({ cabin }: CabinProps) {
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
 
@@ -53,7 +54,7 @@ export default function Cabin({ cabin }) {
           <div>
             <h2 className="text-2xl font-bold text-white mb-6">About this cabin</h2>
             <div className="text-lg text-slate-300 leading-relaxed">
-              <TextExpander>{description}</TextExpander>
+              <TextExpander>{description || ''}</TextExpander>
             </div>
           </div>
 

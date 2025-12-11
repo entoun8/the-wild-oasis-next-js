@@ -3,8 +3,9 @@ import { getBookedDatesByCabinId, getSettings } from "../_lib/data-service";
 import DateSelector from "./DateSelector";
 import LoginMessage from "./LoginMessage";
 import ReservationForm from "./ReservationForm";
+import { ReservationProps } from "../../types";
 
-export default async function Reservation({ cabin }) {
+export default async function Reservation({ cabin }: ReservationProps) {
   const [settings, bookedDates] = await Promise.all([
     getSettings(),
     getBookedDatesByCabinId(cabin.id),
@@ -18,7 +19,7 @@ export default async function Reservation({ cabin }) {
         <h3 className="text-xl font-bold text-white mb-6">Select your dates</h3>
         <DateSelector
           settings={settings}
-          bookDates={bookedDates}
+          bookedDates={bookedDates}
           cabin={cabin}
         />
       </div>
@@ -27,7 +28,15 @@ export default async function Reservation({ cabin }) {
           Complete your reservation
         </h3>
         {session?.user ? (
-          <ReservationForm cabin={cabin} user={session.user} />
+          <ReservationForm
+            cabin={cabin}
+            user={{
+              name: session.user.name || '',
+              email: session.user.email || '',
+              image: session.user.image || '',
+              guestId: (session.user as any).guestId
+            }}
+          />
         ) : (
           <LoginMessage />
         )}

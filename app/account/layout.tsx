@@ -1,6 +1,7 @@
 import SideNavigation from "@/app/_components/SideNavigation";
+import { LayoutProps } from "../../types";
 
-export default function Layout({ children }) {
+export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-full bg-[#10182b] lg:bg-transparent">
       <div className="max-w-7xl mx-auto px-6 py-8">

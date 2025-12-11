@@ -5,20 +5,22 @@ import { supabase } from "./supabase";
 import { revalidatePath } from "next/cache";
 import { getBookings } from "./data-service";
 import { redirect } from "next/navigation";
+import { SessionWithGuestId, BookingData } from "../../types";
 
-export async function updateGuest(formData) {
-  const session = await auth();
-  if (!session) throw new Error("you must be logged in");
+export async function updateGuest(formData: FormData) {
+  const session = await auth() as SessionWithGuestId | null;
+  if (!session?.user?.guestId) throw new Error("you must be logged in");
 
-  const nationalID = formData.get("nationalID");
-  const [nationality, countryFlag] = formData.get("nationality").split("%");
+  const nationalID = formData.get("nationalId") as string;
+  const nationality = formData.get("nationality") as string;
+  const [nationalityName, countryFlag] = nationality.split("%");
 
   if (!/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
-    throw new Error("Please prvide a valid national ID");
+    throw new Error("Please provide a valid national ID");
 
-  const updateData = { nationalId: nationalID, countryFlag, nationality };
+  const updateData = { nationalId: nationalID, countryFlag, nationality: nationalityName };
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("guests")
     .update(updateData)
     .eq("id", session.user.guestId);
@@ -31,15 +33,16 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
-export async function createBooking(bookingData, formData) {
-  const session = await auth();
-  if (!session) throw new Error("you must be logged in");
+export async function createBooking(bookingData: BookingData, formData: FormData) {
+  const session = await auth() as SessionWithGuestId | null;
+  if (!session?.user?.guestId) throw new Error("you must be logged in");
 
+  const observations = formData.get("observations") as string;
   const newBooking = {
     ...bookingData,
     guestId: session.user.guestId,
     numGuests: Number(formData.get("numGuests")),
-    observations: formData.get("observations").slice(0, 1000),
+    observations: observations?.slice(0, 1000) || "",
     extrasPrice: 0,
     totalPrice: bookingData.cabinPrice,
     isPaid: false,
@@ -59,9 +62,9 @@ export async function createBooking(bookingData, formData) {
   redirect("/cabins/thankyou");
 }
 
-export async function deleteBooking(bookingId) {
-  const session = await auth();
-  if (!session) throw new Error("you must be logged in");
+export async function deleteBooking(bookingId: number) {
+  const session = await auth() as SessionWithGuestId | null;
+  if (!session?.user?.guestId) throw new Error("you must be logged in");
 
   const guestBookings = await getBookings(session.user.guestId);
   const guestBookingIds = guestBookings.map((booking) => booking.id);
@@ -81,11 +84,11 @@ export async function deleteBooking(bookingId) {
   revalidatePath("/account/reservations");
 }
 
-export async function updateBooking(formData) {
+export async function updateBooking(formData: FormData) {
   const bookingId = Number(formData.get("bookingId"));
 
-  const session = await auth();
-  if (!session) throw new Error("you must be logged in");
+  const session = await auth() as SessionWithGuestId | null;
+  if (!session?.user?.guestId) throw new Error("you must be logged in");
 
   const guestBookings = await getBookings(session.user.guestId);
   const guestBookingIds = guestBookings.map((booking) => booking.id);
@@ -93,9 +96,10 @@ export async function updateBooking(formData) {
   if (!guestBookingIds.includes(bookingId))
     throw new Error("you are not allowed to update this booking");
 
+  const observations = formData.get("observations") as string;
   const updateData = {
     numGuests: Number(formData.get("numGuests")),
-    observations: formData.get("observations").slice(0, 1000),
+    observations: observations?.slice(0, 1000) || "",
   };
 
   const { error } = await supabase

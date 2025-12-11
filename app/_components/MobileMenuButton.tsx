@@ -1,6 +1,7 @@
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { MobileMenuButtonProps } from "../../types";
 
-function MobileMenuButton({ isOpen, onClick }) {
+function MobileMenuButton({ isOpen, onClick }: MobileMenuButtonProps) {
   return (
     <button
       className="md:hidden p-2 text-primary-200 hover:text-accent-400 transition-colors"

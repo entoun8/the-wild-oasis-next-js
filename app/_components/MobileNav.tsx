@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { MobileNavProps } from "../../types";
 
-function MobileNav({ session, isOpen, onLinkClick }) {
+function MobileNav({ session, isOpen, onLinkClick }: MobileNavProps) {
   if (!isOpen) return null;
 
   return (
@@ -34,7 +35,7 @@ function MobileNav({ session, isOpen, onLinkClick }) {
               <div className="flex items-center gap-3">
                 <img
                   src={session.user.image}
-                  alt={session.user.name}
+                  alt={session.user.name || ""}
                   referrerPolicy="no-referrer"
                   className="h-8 w-8 rounded-full ring-2 ring-accent-400/30"
                 />

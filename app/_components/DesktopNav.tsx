@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { NavigationProps } from "../../types";
 
-function DesktopNav({ session }) {
+function DesktopNav({ session }: NavigationProps) {
   return (
     <ul className="hidden md:flex gap-4 items-center">
       <li>
@@ -28,7 +29,7 @@ function DesktopNav({ session }) {
             <div className="flex items-center gap-3">
               <img
                 src={session.user.image}
-                alt={session.user.name}
+                alt={session.user.name || ""}
                 referrerPolicy="no-referrer"
                 className="h-8 w-8 rounded-full ring-2 ring-accent-400/30"
               />

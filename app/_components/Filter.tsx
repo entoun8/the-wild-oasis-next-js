@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { CabinFilter } from "../../types";
 
 export default function Filter() {
   const searchParams = useSearchParams();
@@ -9,7 +10,7 @@ export default function Filter() {
 
   const activeFilter = searchParams.get("capacity") ?? "all";
 
-  const handleFilter = (filter: string) => {
+  const handleFilter = (filter: CabinFilter) => {
     const params = new URLSearchParams(searchParams);
     params.set("capacity", filter);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });

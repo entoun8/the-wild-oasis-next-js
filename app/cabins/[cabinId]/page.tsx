@@ -3,17 +3,18 @@ import Spinner from "@/app/_components/Spinner";
 import { getCabin } from "@/app/_lib/data-service";
 import Cabin from "@/app/_components/Cabin";
 import { Suspense } from "react";
+import { CabinPageProps } from "../../../types";
 
-export async function generateMetadata({ params }) {
-  const { name } = await getCabin(params.cabinId);
+export async function generateMetadata({ params }: CabinPageProps) {
+  const { name } = await getCabin(Number(params.cabinId));
 
   return {
     title: `Cabin ${name}`,
   };
 }
 
-export default async function Page({ params }) {
-  const cabin = await getCabin(params.cabinId);
+export default async function Page({ params }: CabinPageProps) {
+  const cabin = await getCabin(Number(params.cabinId));
 
   return (
     <div className="min-h-screen">

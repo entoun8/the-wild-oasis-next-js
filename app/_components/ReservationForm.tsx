@@ -4,8 +4,9 @@ import { differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
 import { createBooking } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
+import { ReservationFormProps } from "../../types";
 
-function ReservationForm({ cabin, user }) {
+function ReservationForm({ cabin, user }: ReservationFormProps) {
   const { range, resetRange } = useReservation();
   const { maxCapacity, regularPrice, discount, id } = cabin;
 

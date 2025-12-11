@@ -4,8 +4,9 @@ import { useState } from "react";
 import DesktopNav from "./DesktopNav";
 import MobileMenuButton from "./MobileMenuButton";
 import MobileNav from "./MobileNav";
+import { NavigationProps } from "../../types";
 
-export default function Navigation({ session }) {
+export default function Navigation({ session }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
