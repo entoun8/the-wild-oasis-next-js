@@ -31,6 +31,7 @@ export async function updateGuest(formData: FormData) {
   }
 
   revalidatePath("/account/profile");
+  redirect("/account/profile");
 }
 
 export async function createBooking(bookingData: BookingData, formData: FormData) {
