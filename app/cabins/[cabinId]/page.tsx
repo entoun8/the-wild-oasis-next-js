@@ -6,7 +6,8 @@ import { Suspense } from "react";
 import { CabinPageProps } from "../../../types";
 
 export async function generateMetadata({ params }: CabinPageProps) {
-  const { name } = await getCabin(Number(params.cabinId));
+  const resolvedParams = await params;
+  const { name } = await getCabin(Number(resolvedParams.cabinId));
 
   return {
     title: `Cabin ${name}`,
@@ -14,7 +15,8 @@ export async function generateMetadata({ params }: CabinPageProps) {
 }
 
 export default async function Page({ params }: CabinPageProps) {
-  const cabin = await getCabin(Number(params.cabinId));
+  const resolvedParams = await params;
+  const cabin = await getCabin(Number(resolvedParams.cabinId));
 
   return (
     <div className="min-h-screen">

@@ -116,9 +116,9 @@ export interface PageProps {
 }
 
 export interface CabinPageProps {
-  params: {
+  params: Promise<{
     cabinId: string;
-  };
+  }>;
 }
 
 export interface CabinProps {
