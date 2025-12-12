@@ -9,14 +9,19 @@ import { SessionWithGuestId, BookingData } from "../../types";
 
 export async function updateGuest(formData: FormData) {
   const session = await auth() as SessionWithGuestId | null;
-  if (!session?.user?.guestId) throw new Error("you must be logged in");
+  if (!session?.user?.guestId) throw new Error("You must be logged in");
 
   const nationalID = formData.get("nationalId") as string;
   const nationality = formData.get("nationality") as string;
+
+  if (!nationality || nationality === "") {
+    throw new Error("Please select a country");
+  }
+
   const [nationalityName, countryFlag] = nationality.split("%");
 
-  if (!/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
-    throw new Error("Please provide a valid national ID");
+  if (!nationalID || !/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
+    throw new Error("Please provide a valid national ID (6-12 alphanumeric characters)");
 
   const updateData = { nationalId: nationalID, countryFlag, nationality: nationalityName };
 

@@ -43,11 +43,13 @@ export default function UpdateProfileForm({ guest, children }: UpdateProfileForm
           >
             Where are you from?
           </label>
-          <img
-            src={countryFlag}
-            alt="Country flag"
-            className="h-6 rounded border border-primary-600"
-          />
+          {countryFlag && (
+            <img
+              src={countryFlag}
+              alt="Country flag"
+              className="h-6 rounded border border-primary-600"
+            />
+          )}
         </div>
 
         {children}
