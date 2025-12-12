@@ -10,7 +10,8 @@ export const metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const filter: CabinFilter = (searchParams?.capacity as CabinFilter) ?? "all";
+  const resolvedParams = await searchParams;
+  const filter: CabinFilter = (resolvedParams?.capacity as CabinFilter) ?? "all";
 
   return (
     <div className="min-h-screen">

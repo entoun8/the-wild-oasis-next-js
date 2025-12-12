@@ -109,10 +109,10 @@ export interface ReservationProviderProps {
 }
 
 export interface PageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     capacity?: CabinFilter;
     [key: string]: string | string[] | undefined;
-  };
+  }>;
 }
 
 export interface CabinPageProps {
